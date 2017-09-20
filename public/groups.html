@@ -1,0 +1,10 @@
+
+<section>
+	groups
+	<ul>
+		<li ng-repeat="group in ctrl.groups.data"><a href="{{'/groups/' + group.id}}"> Name: {{group.name}} | 
+		Members: {{group.characters.length}} | 
+		Raid: {{group.raid.name}}</a>
+	</li>
+	</ul>
+</section>
