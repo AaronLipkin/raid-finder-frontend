@@ -27,6 +27,15 @@ app.controller('mainController', ['$http','$routeParams', function ($http, $rout
 	console.log(this.token)
 	this.user = {}
 
+	$http({
+	      method: 'GET',
+	      url: 'http://localhost:3000/klasses',
+	      headers: {Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))}
+	    }).then((response) => {
+	    	this.klasses = response.data
+	      console.log(response);
+	    });
+
 	if(this.token) {
 		$http({
 	      method: 'GET',
@@ -76,6 +85,17 @@ app.controller('groupController', ['$http','$routeParams', function ($http, $rou
 
 	this.group_id = $routeParams.id;
 
+	this.applicant= {};
+	this.parseChar = (string) => {
+		console.log(JSON.parse(string))
+		this.applicant.char_object = JSON.parse(string)
+	}
+
+	this.parseSpec = (string) => {
+		console.log(JSON.parse(string))
+		this.applicant.spec_object = JSON.parse(string)
+	}
+
 	$http({
         method:'GET',
         url: 'http://localhost:3000/groups/' + $routeParams.id,
@@ -85,6 +105,42 @@ app.controller('groupController', ['$http','$routeParams', function ($http, $rou
     }, function(){
         console.log('error');
     });
+
+    this.apply = () => {
+    	final_applicant = {character_id: this.applicant.char_object.id, group_id: Number(this.group_id), spec_id: this.applicant.spec_object.id, role: this.applicant.spec_object.role, note: this.applicant.note};
+    	console.log(final_applicant)
+    	$http({
+	        method:'POST',
+	        url: 'http://localhost:3000/requests/',
+	        data: final_applicant
+	    }).then((response) => {
+	        console.log(response)
+	        this.getRequests()
+	    }, function(){
+	        console.log('error');
+	    });
+    }
+
+    this.getRequests = () => {
+    	$http({
+	        method:'GET',
+	        url: 'http://localhost:3000/requests/'
+	    }).then((response) => {
+	    	this.requests = response.data
+	        console.log(response)
+	    }, function(){
+	        console.log('error');
+	    });
+    }
+
+    this.getRequests()
+
+
+
 }]);
 
-app.controller('raidsController', ['$http','$routeParams', function ($http, $routeParams) {}]);
+app.controller('raidsController', ['$http','$routeParams', function ($http, $routeParams) {
+
+
+
+}]);

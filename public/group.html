@@ -2,5 +2,22 @@
 <h1>{{ctrl.group.name}}</h1>
 
 <ul>
-	<li ng-repeat="member in ctrl.group.ledgers | orderBy: '-spec.role'" class="cc {{member.spec.klasse.css_style}} {{member.spec.role}}">{{member.character.name}}</li>
+	<li ng-repeat="member in ctrl.group.ledgers | orderBy: '-spec.role'" class="{{member.spec.role}}"><b class="cc {{member.spec.klasse.css_style}}">{{member.character.name}}</b>-{{member.character.server}}</li>
 </ul>
+
+<form ng-submit="ctrl.apply()">
+	<select ng-model="ctrl.applicant.character" ng-change="ctrl.parseChar(ctrl.applicant.character)" required>
+		<option value="">---Select Character---</option>
+		<option ng-repeat="character in main.user.characters | filter : {faction : ctrl.group.faction}" value="{{character}}">{{character.name}} - {{character.item_level}} {{character.klasse.name}}</option>
+	</select>
+	<select ng-model="ctrl.applicant.spec" ng-change="ctrl.parseSpec(ctrl.applicant.spec)" required>
+		<option value="">---Select Spec---</option>
+		<option ng-repeat="spec in ctrl.applicant.char_object.klasse.specs" value="{{spec}}">{{spec.name}}</option>
+	</select>
+	<textarea ng-model="ctrl.applicant.note" placeholder="Note"></textarea>
+	<button type="submit">Apply!</button>
+</form>
+
+
+<h2>Requests</h2>
+<div ng-repeat="request in ctrl.requests">{{request.character.name}}-{{request.character.server}}</div>
