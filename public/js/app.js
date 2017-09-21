@@ -21,6 +21,42 @@ app.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
     })
 }])
 
+app.controller('mainController', ['$http','$routeParams', function ($http, $routeParams) {
+	
+	this.token = JSON.parse(localStorage.getItem('token'))
+	console.log(this.token)
+	this.user = {}
+
+	if(this.token) {
+		$http({
+	      method: 'GET',
+	      url: 'http://localhost:3000/users/currentuser',
+	      headers: {Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))}
+	    }).then((response) => {
+	    	this.user = response.data
+	      console.log(response);
+	    });
+	}
+
+	this.login = (userPass) => {
+		$http({
+	      method: 'POST',
+	      url: 'http://localhost:3000/users/login',
+	      data: { user: { username: userPass.username, password: userPass.password }},
+	    }).then((response) => {
+	      console.log(response);
+	      this.user = response.data.user;
+	      localStorage.setItem('token', JSON.stringify(response.data.token));
+	    });
+	}
+
+	this.logout = () => {
+		localStorage.clear('token');
+		location.reload();
+	}
+}]);
+
+
 app.controller('groupsController', ['$http','$routeParams', function ($http, $routeParams) {
 	
 	
@@ -50,3 +86,5 @@ app.controller('groupController', ['$http','$routeParams', function ($http, $rou
         console.log('error');
     });
 }]);
+
+app.controller('raidsController', ['$http','$routeParams', function ($http, $routeParams) {}]);

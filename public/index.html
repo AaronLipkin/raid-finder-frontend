@@ -13,15 +13,23 @@
 	<base href="/" target="_blank">
 	<title></title>
 </head>
-<body>
+<body ng-controller="mainController as main">
 	<nav>
 	    <ul>
 	        <li>
 	            <a href="/groups">Groups</a>
 	            <a href="/raids">Raids</a>
+	            <p>Logged in username: {{ main.user.username }} </p>
+	            <a href="#" ng-click="main.logout()">Log Out</a>
 	        </li>
 	    </ul>
 	</nav>
+
+	    <form ng-submit="main.login(userPass)">
+      <input type="text" ng-model="userPass.username" placeholder="username"/>
+      <input type="password" ng-model="userPass.password" placeholder="password"/>
+      <input type="submit"/>
+    </form>
 	<main ng-view>
 
 	</main>
