@@ -1,0 +1,95 @@
+body {
+	color: white;
+	background: black;
+}
+
+
+.DPS {
+	list-style: none;
+}
+
+.DPS:before{
+   content: '';
+   display: inline-block;
+   height: 16px;
+   width: 16px;
+   margin-right: 10px;
+   margin-left: -20px;
+   background-image: url('../images/sword-01.svg');
+}
+
+.Healer {
+	list-style: none;
+}
+
+.Healer:before{
+   content: '';
+   display: inline-block;
+   height: 16px;
+   width: 16px;
+   margin-right: 10px;
+   margin-left: -20px;
+   background-image: url('../images/cross-01.svg');
+}
+
+.Tank {
+	list-style: none;
+}
+
+.Tank:before{
+   content: '';
+   display: inline-block;
+   height: 16px;
+   width: 16px;
+   margin-right: 10px;
+   margin-left: -20px;
+   background-image: url('../images/tank-01.svg');
+}
+
+.dk {
+	color: #C41F3B;
+}
+
+.dh {
+	color: #A330C9;
+}
+
+.druid {
+	color: #FF7D0A;
+}
+
+.hunter {
+	color: #ABD473;
+}
+
+.mage {
+	color: #69CCF0;
+}
+
+.monk {
+	color: #00FF96;
+}
+
+.paladin {
+	color: #F58CBA;
+}
+
+.priest {
+	color: white;
+}
+
+.rogue {
+	color: #FFF569;
+}
+
+.shaman {
+	color: #0070DE;
+}
+
+.warlock {
+	color: #9482C9;
+}
+
+.warrior {
+	color: #C79C6E;
+}

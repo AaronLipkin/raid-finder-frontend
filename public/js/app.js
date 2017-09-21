@@ -16,20 +16,36 @@ app.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
 
     $routeProvider.when('/groups/:id', {
         templateUrl: 'group.html',
-        controller: 'groupsController',
+        controller: 'groupController',
         controllerAs: 'ctrl'
     })
 }])
 
 app.controller('groupsController', ['$http','$routeParams', function ($http, $routeParams) {
 	
-	this.group_id = $routeParams.id;
+	
 
 	$http({
         method:'GET',
         url: 'http://localhost:3000/groups',
     }).then((response) => {
-        this.groups = response;
+        this.groups = response.data;
+        console.log(response)
+    }, function(){
+        console.log('error');
+    });
+}]);
+
+app.controller('groupController', ['$http','$routeParams', function ($http, $routeParams) {
+
+	this.group_id = $routeParams.id;
+
+	$http({
+        method:'GET',
+        url: 'http://localhost:3000/groups/' + $routeParams.id,
+    }).then((response) => {
+        this.group = response.data;
+        console.log(response)
     }, function(){
         console.log('error');
     });
