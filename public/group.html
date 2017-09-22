@@ -1,5 +1,5 @@
 
-<h1>{{ctrl.group.name}}</h1>
+<h1>{{ctrl.group.name}}-<span class="{{ctrl.group.faction}}">{{ctrl.group.faction}}</span></h1>
 
 <ul>
 	<li ng-repeat="member in ctrl.group.ledgers | orderBy: '-spec.role'" class="{{member.spec.role}}"><b class="cc {{member.spec.klasse.css_style}}">{{member.character.name}}</b>-{{member.character.server}}</li>
@@ -20,4 +20,17 @@
 
 
 <h2>Requests</h2>
-<div ng-repeat="request in ctrl.requests">{{request.character.name}}-{{request.character.server}}</div>
+<table>
+<th>Name</th>
+<th>ilvl</th>
+<th>Spec</th>
+<th></th>
+
+<tr ng-repeat="request in ctrl.requests | filter: {status: null}">
+	<th>{{request.character.name}}-{{request.character.server}}</th>
+	<th>{{request.character.item_level}}</th>
+	<th>{{request.spec.name}}</th>
+	<th>{{request.status}}</th>
+	<th><button ng-click=ctrl.accept(request.id)>Accept</button><button ng-click=ctrl.reject(request.id)>Reject</button></th>
+</tr>
+</table>

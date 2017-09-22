@@ -4,7 +4,7 @@
 	<ul>
 		<li ng-repeat="group in ctrl.groups"><a href="{{'/groups/' + group.id}}"> <h2>Name: {{group.name}} | 
 		Members: {{group.ledgers.length}} | 
-		Raid: {{group.raid.name}}</h2></a>
+		Raid: {{group.raid.name}}-<span class="{{group.faction}}">{{group.faction}}</span></h2></a>
 	</li>
 	</ul>
 </section>

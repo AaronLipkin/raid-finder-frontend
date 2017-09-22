@@ -96,15 +96,19 @@ app.controller('groupController', ['$http','$routeParams', function ($http, $rou
 		this.applicant.spec_object = JSON.parse(string)
 	}
 
-	$http({
-        method:'GET',
-        url: 'http://localhost:3000/groups/' + $routeParams.id,
-    }).then((response) => {
-        this.group = response.data;
-        console.log(response)
-    }, function(){
-        console.log('error');
-    });
+	this.getGroup = () => {
+		$http({
+	        method:'GET',
+	        url: 'http://localhost:3000/groups/' + $routeParams.id,
+	    }).then((response) => {
+	        this.group = response.data;
+	        console.log(response)
+	    }, function(){
+	        console.log('error');
+	    });
+	}
+	this.getGroup()
+
 
     this.apply = () => {
     	final_applicant = {character_id: this.applicant.char_object.id, group_id: Number(this.group_id), spec_id: this.applicant.spec_object.id, role: this.applicant.spec_object.role, note: this.applicant.note};
@@ -124,10 +128,36 @@ app.controller('groupController', ['$http','$routeParams', function ($http, $rou
     this.getRequests = () => {
     	$http({
 	        method:'GET',
-	        url: 'http://localhost:3000/requests/'
+	        url: 'http://localhost:3000/requests/' + this.group_id
 	    }).then((response) => {
 	    	this.requests = response.data
+	        console.log("requests",response)
+	    }, function(){
+	        console.log('error');
+	    });
+    }
+
+    this.accept = (id) => {
+    	$http({
+	        method:'GET',
+	        url: 'http://localhost:3000/requests/accept/' + id
+	    }).then((response) => {
 	        console.log(response)
+	        this.getGroup()
+	        this.getRequests()
+	    }, function(){
+	        console.log('error');
+	    });
+    }
+
+    this.reject = (id) => {
+    	$http({
+	        method:'GET',
+	        url: 'http://localhost:3000/requests/reject/' + id
+	    }).then((response) => {
+	        console.log(response)
+	        this.getGroup()
+	        this.getRequests()
 	    }, function(){
 	        console.log('error');
 	    });
