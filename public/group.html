@@ -1,36 +1,59 @@
+<div class="list-group">
+			<h1 class="display-3">{{ctrl.group.raid.name}}-{{ctrl.group.difficulty}}</h1> 
+			<hr style="border-color:white;">
 
-<h1>{{ctrl.group.name}}-<span class="{{ctrl.group.faction}}">{{ctrl.group.faction}}</span></h1>
+			<h1>
+				{{ctrl.group.group_name}}<span ng-show="main.characters.indexOf(ctrl.group.raid_leader_id) != -1">*</span> 
+			</h1>
+			<h4>
+				{{ctrl.group.go_time | date:'medium'}}
+			</h4>
+			Tanks: {{(ctrl.group.ledgers | filter: {spec:{role:"Tank"} }).length}} | Healers: {{(ctrl.group.ledgers | filter: {spec:{role:"Healer"} }).length}} | DPS: {{(ctrl.group.ledgers | filter: {spec:{role:"DPS"} }).length}}<br>
+			<span class="{{ctrl.group.faction}}">{{ctrl.group.faction}}</span>
+
+	</div>
+
+<br>
+<h1 class="display-4">Members</h1>
 
 <ul>
-	<li ng-repeat="member in ctrl.group.ledgers | orderBy: '-spec.role'" class="{{member.spec.role}}"><b class="cc {{member.spec.klasse.css_style}}">{{member.character.name}}</b>-{{member.character.server}}</li>
+	<li ng-repeat="member in ctrl.group.ledgers | orderBy: '-spec.role'" class="{{member.spec.role}}" ng-class="{leader: member.character_id === ctrl.group.raid_leader_id }"><b class="cc {{member.spec.klasse.css_style}}">{{member.character.name}}</b>-{{member.character.server}}</li>
 </ul>
 
-<form ng-submit="ctrl.apply()">
-	<select ng-model="ctrl.applicant.character" ng-change="ctrl.parseChar(ctrl.applicant.character)" required>
+<form ng-submit="ctrl.apply()" ng-show="ctrl.inGroup(main.characters)" style="width:500px;">
+	<h1 class="display-4">Apply!</h1>
+	<label>Character</label>
+	<select ng-model="ctrl.applicant.character" ng-change="ctrl.parseChar(ctrl.applicant.character)" class="form-control" required>
 		<option value="">---Select Character---</option>
 		<option ng-repeat="character in main.user.characters | filter : {faction : ctrl.group.faction}" value="{{character}}">{{character.name}} - {{character.item_level}} {{character.klasse.name}}</option>
 	</select>
-	<select ng-model="ctrl.applicant.spec" ng-change="ctrl.parseSpec(ctrl.applicant.spec)" required>
+	<label>Spec</label>
+	<select ng-model="ctrl.applicant.spec" ng-change="ctrl.parseSpec(ctrl.applicant.spec)" class="form-control" required>
 		<option value="">---Select Spec---</option>
 		<option ng-repeat="spec in ctrl.applicant.char_object.klasse.specs" value="{{spec}}">{{spec.name}}</option>
 	</select>
-	<textarea ng-model="ctrl.applicant.note" placeholder="Note"></textarea>
-	<button type="submit">Apply!</button>
+	<label>Note</label>
+	<textarea class="form-control" ng-model="ctrl.applicant.note" placeholder="Note"></textarea>
+	<button class="btn btn-dark" type="submit">Apply!</button>
 </form>
 
+<div id="requests" ng-show="(main.characters.indexOf(ctrl.group.raid_leader_id) != -1)">
+	<h2>Requests</h2>
+	<table class="table">
+		<th>Name</th>
+		<th>Server</th>
+		<th>ilvl</th>
+		<th>Spec</th>
+		<th>Note</th>
+		<th>Actions</th>
 
-<h2>Requests</h2>
-<table>
-<th>Name</th>
-<th>ilvl</th>
-<th>Spec</th>
-<th></th>
-
-<tr ng-repeat="request in ctrl.requests | filter: {status: null}">
-	<th>{{request.character.name}}-{{request.character.server}}</th>
-	<th>{{request.character.item_level}}</th>
-	<th>{{request.spec.name}}</th>
-	<th>{{request.status}}</th>
-	<th><button ng-click=ctrl.accept(request.id)>Accept</button><button ng-click=ctrl.reject(request.id)>Reject</button></th>
-</tr>
-</table>
+		<tr ng-repeat="request in ctrl.requests | filter: {status: null}">
+			<td><b class="{{request.character.klasse.css_style}}">{{request.character.name}}</b></td>
+			<td>{{request.character.server}}</td>
+			<td>{{request.character.item_level}}</td>
+			<td>{{request.spec.name}}</td>
+			<td>{{request.note}}</td>
+			<td><button ng-click=ctrl.accept(request.id)>Accept</button><button ng-click=ctrl.reject(request.id)>Reject</button></td>
+		</tr>
+	</table>
+</div>

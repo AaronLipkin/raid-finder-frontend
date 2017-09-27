@@ -1,1 +1,20 @@
-raids
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <button ng-repeat="raid in ctrl.raids" ng-click="ctrl.selectedRaid(raid.id)" type="button" class="btn btn-dark">{{raid.name}}</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="jumbotron" ng-show="ctrl.raid">
+  <h1 class="display-3">{{ctrl.raid.name}}</h1>
+  <p class="lead">{{ctrl.raid.info}}</p>
+  <hr class="my-4">
+  <h1>Available Difficulties</h1>
+  <ul class="list-inline">
+  | <li ng-repeat="diff in ctrl.raid.difficulties" class="list-inline-item">{{diff}} |</li>
+</ul>
+  <h1>Videos</h1>
+  <iframe ng-repeat="video in ctrl.raid.videos" width="560" height="315" ng-src="{{'https://www.youtube.com/embed/' + video +  '?rel=0'}}" frameborder="0" allowfullscreen></iframe>
+</div>

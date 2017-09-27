@@ -1,10 +1,85 @@
 
 <section>
-	<h1>groups</h1>
-	<ul>
-		<li ng-repeat="group in ctrl.groups"><a href="{{'/groups/' + group.id}}"> <h2>Name: {{group.name}} | 
-		Members: {{group.ledgers.length}} | 
-		Raid: {{group.raid.name}}-<span class="{{group.faction}}">{{group.faction}}</span></h2></a>
-	</li>
-	</ul>
+	<h1>Groups <button type="button" class="btn btn-light ml-3" data-toggle="modal" data-target="#newGroupModal">
+		Create Group
+	</button></h1>
+	<div class="list-group">
+		<a ng-repeat="group in ctrl.groups" href="{{'/groups/' + group.id}}" class="list-group-item list-group-item-secondary"> 
+			<h1 class="display-5">{{group.raid.name}}-{{group.difficulty}}</h1>
+
+			<h2>
+				{{group.group_name}}<span ng-show="main.characters.indexOf(group.raid_leader_id) != -1">*</span> 
+			</h2>
+			<h4>
+				{{group.go_time | date:'medium'}}
+			</h4>
+			Tanks: {{(group.ledgers | filter: {spec:{role:"Tank"} }).length}} | Healers: {{(group.ledgers | filter: {spec:{role:"Healer"} }).length}} | DPS: {{(group.ledgers | filter: {spec:{role:"DPS"} }).length}}<br>
+			<span class="{{group.faction}}">{{group.faction}}</span>
+
+		</a>
+	</div>
 </section>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-labelledby="newGroupModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="newGroupModalLabel" style="color:black;">Create a Group</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form ng-submit="ctrl.createGroup();">
+					<div class="form-row">
+						<label for="newGroupName" class="col-form-label">Name</label>
+						<input id="newGroupName type="text" ng-model="ctrl.newGroup.name" class="form-control" placeholder="Name" required>
+					</div>
+					<div class="form-row">
+						<label for="newCharLeader" class="col-form-label">Pick a Character to Raid Lead</label>
+						<select ng-model="ctrl.newGroup.raid_leader" id="newGroupLeader" class="form-control" ng-change="ctrl.parseChar()" required>
+							<option value="">--Select Character--</option>
+							<option ng-repeat="character in main.user.characters" value="{{character}}">{{character.name}} | {{character.server}} | {{character.faction}} | {{character.klasse.name}}</option>
+						</select>
+					</div>
+					<div class="form-row">
+					<div class="form-group col-md-6">
+							<label for="newCharSpec" class="col-form-label">Spec</label>
+							<select ng-model="ctrl.newGroup.spec_id" id="newCharSpec" class="form-control" required>
+								<option value="">--Select Spec--</option>
+								<option ng-repeat="spec in main.klasses[ctrl.newGroup.raid_leader_object.klasse_id - 1].specs" value="{{spec.id}}">{{spec.name}}</option>
+							</select>
+					</div>
+				</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="newGroupRaid" class="col-form-label">Raid</label>
+							<select ng-model="ctrl.newGroup.raid" class="form-control" ng-change="ctrl.parseRaid()" required>
+								<option value="">--Select Raid--</option>
+								<option ng-repeat="raid in ctrl.raids" value="{{raid}}">{{raid.name}}</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="newGroupDiff" class="col-form-label">Difficulty</label>
+							<select ng-model="ctrl.newGroup.difficulty" class="form-control" required>
+								<option value="">--Select Difficulty--</option>
+								<option ng-repeat="diff in ctrl.newGroup.raid_object.difficulties" value="{{diff}}">{{diff}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<label for="newCharLeader" class="col-form-label">Go Time</label>
+						<input type="datetime-local" class="form-control" ng-model="ctrl.newGroup.go_time" required>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-dark" type="submit">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

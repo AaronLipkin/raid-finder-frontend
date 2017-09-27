@@ -1,8 +1,40 @@
 body {
 	color: white;
-	background: black;
+	background: url('../images/background.jpeg') black;
 }
 
+
+#login {
+	position: absolute;
+	background: url('../images/background.jpeg') black;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 5000;
+}
+
+table a {
+	color: white;
+}
+
+.jumbotron {
+	color: black;
+}
+
+#login form {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: 400px;
+}
+
+.modal {
+	color: black;
+}
 
 .DPS {
 	list-style: none;
@@ -16,6 +48,10 @@ body {
    margin-right: 10px;
    margin-left: -20px;
    background-image: url('../images/sword-01.svg');
+}
+
+.DPS.leader:before {
+	background-image: url('../images/DPS-leader-01.svg');
 }
 
 .Healer {
@@ -32,6 +68,10 @@ body {
    background-image: url('../images/cross-01.svg');
 }
 
+.Healer.leader:before {
+	background-image: url('../images/heal-leader-01.svg');
+}
+
 .Tank {
 	list-style: none;
 }
@@ -45,6 +85,11 @@ body {
    margin-left: -20px;
    background-image: url('../images/tank-01.svg');
 }
+
+.Tank.leader:before {
+	background-image: url('../images/tank-lead-01.svg');
+}
+
 
 .dk {
 	color: #C41F3B;

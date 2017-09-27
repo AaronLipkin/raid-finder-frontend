@@ -2,7 +2,7 @@
 <html lang="en" ng-app="raidfinder">
 <head>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
@@ -14,30 +14,62 @@
 	<title></title>
 </head>
 <body ng-controller="mainController as main">
-	<nav>
-	    <ul>
-	        <li>
-	            <a href="/groups">Groups</a>
-	            <a href="/raids">Raids</a>
-	            <p>Logged in username: {{ main.user.username }} </p>
-	            <a href="#" ng-click="main.logout()">Log Out</a>
-	        </li>
-	    </ul>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<a class="navbar-brand" href="/"><img src="/images/rrflogo.png" height="45px"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/groups">Groups</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/raids">Raids</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						My Account
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="/profile">My Profile</a>
+						<a class="dropdown-item" href="#" ng-click="main.logout()">Logout</a>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</nav>
 
-	    <form ng-submit="main.login(userPass)">
-      <input type="text" ng-model="userPass.username" placeholder="username"/>
-      <input type="password" ng-model="userPass.password" placeholder="password"/>
-      <input type="submit"/>
-    </form>
-	<main ng-view>
+	<div id="login" ng-show="!main.token">
+		<form ng-submit="main.login(userPass)" ng-show="main.hasAccount">
+			<h1 class="display-2">Login</h1>
+			<label for="newCharName" class="col-form-label">Username:</label>
+			<input class="form-control login-oops" type="text" ng-model="userPass.username" placeholder="username"/><br>
+			<label for="newCharName" class="col-form-label">Password:</label>
+			<input class="form-control login-oops" type="password" ng-model="userPass.password" placeholder="password"/><br>
+			<input class="form-control" type="submit"/>
+			<button ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I need an account first!</button>
+		</form>
+
+		<form ng-submit="main.register(userPass)" ng-show="!main.hasAccount">
+			<h1 class="display-2">Register</h1>
+			<label for="newCharName" class="col-form-label">Username:</label>
+			<input class="form-control" type="text" ng-model="userPass.username" placeholder="username"/><br>
+			<label for="newCharName" class="col-form-label">Password:</label>
+			<input class="form-control" type="password" ng-model="userPass.password" placeholder="password"/><br>
+			<input class="form-control" type="submit"/>
+			<button ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I have an account!</button>
+		</form>
+	</div>
+	<br>
+	<main ng-view class="container-fluid">
 
 	</main>
 
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>	
 </body>
 </html>
