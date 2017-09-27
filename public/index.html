@@ -48,7 +48,7 @@
 			<label for="newCharName" class="col-form-label">Password:</label>
 			<input class="form-control login-oops" type="password" ng-model="userPass.password" placeholder="password"/><br>
 			<input class="form-control" type="submit"/>
-			<button ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I need an account first!</button>
+			<a ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I need an account first!</a>
 		</form>
 
 		<form ng-submit="main.register(userPass)" ng-show="!main.hasAccount">
@@ -58,7 +58,7 @@
 			<label for="newCharName" class="col-form-label">Password:</label>
 			<input class="form-control" type="password" ng-model="userPass.password" placeholder="password"/><br>
 			<input class="form-control" type="submit"/>
-			<button ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I have an account!</button>
+			<a ng-click="main.hasAccount = !main.hasAccount" class="btn-link btn">I have an account!</a>
 		</form>
 	</div>
 	<br>
